@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -41,7 +40,7 @@ export default function SignInPage() {
           <CardTitle className="text-xl text-center">
             Sign in to your account
           </CardTitle>
-          <CardDescription className="text-base text-slate-500 text-center">
+          <CardDescription className="text-sm text-slate-500 text-center">
             Please Sign in first to access{" "}
             <Link
               href={"/"}

@@ -16,7 +16,6 @@ const Filter = () => {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Categories</SelectLabel>
           <SelectItem value="deadline">Deadline</SelectItem>
           <SelectItem value="priority">Priority</SelectItem>
           <SelectItem value="recent">Recent</SelectItem>

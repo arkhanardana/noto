@@ -9,8 +9,6 @@ const getUser = async () => {
 
       const data = session?.user;
 
-      console.log(data)
-
   return (
     data
   )

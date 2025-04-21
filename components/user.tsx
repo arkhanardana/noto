@@ -8,7 +8,7 @@ export default async function User() {
   return (
       <div className="flex items-center">
         <Profile />
-        <DropdownMenuLabel className="text-xl">{user?.name}</DropdownMenuLabel>
+        <DropdownMenuLabel className="text-xl ml-1">{user?.name}</DropdownMenuLabel>
       </div>
   );
 }

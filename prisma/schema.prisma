@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -23,6 +23,7 @@ model User {
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  todos         Todo[]
 
   @@map("user")
 }
@@ -70,4 +71,15 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model Todo {
+  id        Int     @id @default(autoincrement())
+  todoname  String  @db.VarChar(30)
+  checklist Boolean @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("todo")
 }

@@ -1,7 +1,9 @@
+import Profile from "@/components/ui/profile";
+
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-black">Test</h1>
-    </div>
+    <section className="mx-auto max-w-4xl">
+      <Profile/>
+    </section>
   );
 }

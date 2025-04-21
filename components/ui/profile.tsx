@@ -1,3 +1,5 @@
+"use client";
+
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -6,18 +8,21 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { authClient } from "@/lib/auth-client";
 
 import Image from "next/image";
-import getUser from "../get-user";
 
-const Profile = async () => {
-  const user = await getUser();
+const Profile = () => {
+  const session = authClient.useSession();
+
+  const user = session?.data?.user
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className="p-1 rounded-full h-fit">
           <Image
-            src={`${user?.image}`}
+            src={user?.image}
             width={1000}
             height={1000}
             alt="profile"

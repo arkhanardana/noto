@@ -1,10 +1,15 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import User from "@/components/user";
 import { Search, Menu, Plus } from "lucide-react";
 import Filter from "@/components/filter";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 export default function Home() {
+  const [search, setSearch] = useState(false);
+
   return (
     <section className="mx-auto max-w-3xl py-4 h-[200vh]">
       <div className="flex justify-between items-center">
@@ -13,7 +18,10 @@ export default function Home() {
           <Button className="p-3 [&_svg]:!size-5">
             <Plus />
           </Button>
-          <Button className="p-3 [&_svg]:!size-5">
+          <Button
+            onClick={() => setSearch((prev) => !prev)}
+            className="p-3 [&_svg]:!size-5"
+          >
             <Search />
           </Button>
           <Button className="p-3 [&_svg]:!size-5">
@@ -27,7 +35,9 @@ export default function Home() {
         <Filter />
       </div>
 
-      <Input className="w-full" type="text" placeholder="Search tasks..." />
+      {search && (
+        <Input className="w-full" type="text" placeholder="Search tasks..." />
+      )}
 
       <div className="grid grid-cols-4 gap-4 pt-6">
         <Button>All Tasks</Button>

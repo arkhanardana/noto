@@ -36,7 +36,7 @@ export default function SignInPage() {
         <p className="text-sm text-slate-500 mt-1">Manage your daily task</p>
       </div>
       <Card className="w-full max-w-sm">
-        {!session && (
+        {!session?.data && (
           <CardHeader>
             <CardTitle className="text-xl text-center">
               Sign in to your account
@@ -53,7 +53,7 @@ export default function SignInPage() {
           </CardHeader>
         )}
         <CardFooter className="flex-col gap-2">
-          {!session ? (
+          {!session?.data ? (
             <Button
               onClick={signin}
               className="relative h-12 w-full justify-center"

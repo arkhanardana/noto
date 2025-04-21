@@ -17,7 +17,7 @@ const Profile = async () => {
       <DropdownMenuTrigger asChild>
         <Button className="p-1 rounded-full h-fit">
           <Image
-            src={user?.image}
+            src={`${user?.image}`}
             width={1000}
             height={1000}
             alt="profile"

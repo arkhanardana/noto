@@ -17,8 +17,6 @@ const Filter = () => {
         <SelectGroup>
           <SelectItem value="deadline">Deadline</SelectItem>
           <SelectItem value="priority">Priority</SelectItem>
-          <SelectItem value="recent">Recent</SelectItem>
-          <SelectItem value="old">Old</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

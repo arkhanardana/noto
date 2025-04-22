@@ -11,7 +11,7 @@ export default function Home() {
   const [search, setSearch] = useState(false);
 
   return (
-    <section className="mx-auto max-w-3xl py-4 h-[200vh]">
+    <section className="mx-auto max-w-3xl py-4 h-screen">
       <div className="flex justify-between items-center">
         <User />
         <div className="flex gap-6">

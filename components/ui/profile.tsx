@@ -15,23 +15,25 @@ import Image from "next/image";
 const Profile = () => {
   const session = authClient.useSession();
 
-  const user = session?.data?.user
+  const user = session?.data?.user;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="p-1 rounded-full h-fit">
-          <Image
-            src={user?.image}
-            width={1000}
-            height={1000}
-            alt="profile"
-            className="w-10 h-10 rounded-full"
-          />
-        </Button>
+        <span>
+          <Button className="p-1 rounded-full h-fit">
+            <Image
+              src={user?.image}
+              width={1000}
+              height={1000}
+              alt="profile"
+              className="w-10 h-10 rounded-full"
+            />
+          </Button>
+        </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem className="">
+        <DropdownMenuItem>
           <LogOut />
           <span>Log out</span>
         </DropdownMenuItem>

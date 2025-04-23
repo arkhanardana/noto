@@ -7,6 +7,10 @@ export const todo = new Hono();
 
 todo.use("*", sessionMiddleware);
 
+/**
+ * GET /api/todos
+ * GET all todo milik user yang sedang login
+ */
 todo.get("/", async (c) => {
   const user = c.get("user");
   if (!user) return c.json({ error: "Unauthorized" }, 401);
@@ -18,6 +22,10 @@ todo.get("/", async (c) => {
   return c.json(todos);
 });
 
+/**
+ * GET /api/todos/:id
+ * Ambil 1 todo berdasarkan ID (hanya milik sendiri)
+ */
 todo.get("/:id", async (c) => {
   const user = c.get("user");
   const id = Number(c.req.param("id"));
@@ -31,6 +39,17 @@ todo.get("/:id", async (c) => {
   return c.json(todo);
 });
 
+/**
+ * POST /api/todos
+ * Tambah todo baru
+ * Body:
+ * {
+ *   "todoname": "Belajar Reaksi",
+ *   "deadline": "2025-05-01T15:00:00.000Z",
+ *   "status": "TODO",
+ *   "priority": "LOW"
+ * }
+ */
 todo.post("/", async (c) => {
   const user = c.get("user");
   if (!user) return c.json({ error: "Unauthorized" }, 401);
@@ -54,6 +73,17 @@ todo.post("/", async (c) => {
   return c.json(newTodo, 201);
 });
 
+/**
+ * PUT /api/todos/:id
+ * Edit todo berdasarkan ID (hanya milik sendiri)
+ * Body:
+ * {
+ *   "todoname": "Ngodonf lebih rajin jir",
+ *   "status": "PROGRESS",
+ *   "deadline": "2025-05-03T15:00:00.000Z",
+ *   "priority": "HIGH"
+ * }
+ */
 todo.put("/:id", async (c) => {
   const user = c.get("user");
   const id = Number(c.req.param("id"));
@@ -78,6 +108,10 @@ todo.put("/:id", async (c) => {
   return c.json(updated);
 });
 
+/**
+ * DELETE /api/todos/:id
+ * Hapus todo berdasarkan ID
+ */
 todo.delete("/:id", async (c) => {
   const user = c.get("user");
   const id = Number(c.req.param("id"));

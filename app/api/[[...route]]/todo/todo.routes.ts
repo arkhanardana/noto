@@ -1,18 +1,11 @@
 import { Hono } from "hono";
-import { z } from "zod";
 import db from "@/lib/db";
 import { sessionMiddleware } from "../middlewares/session";
+import { todoSchema } from "./todo.schema";
 
 export const todo = new Hono();
 
 todo.use("*", sessionMiddleware);
-
-const todoSchema = z.object({
-  todoname: z.string().max(30),
-  status: z.enum(["TODO", "PROGRESS", "COMPLETED"]).optional(),
-  deadline: z.string().datetime(),
-  priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
-});
 
 todo.get("/", async (c) => {
   const user = c.get("user");

@@ -73,13 +73,28 @@ model Verification {
   @@map("verification")
 }
 
+enum StatusTodo {
+  TODO
+  PROGRESS
+  COMPLETED
+}
+
+enum PriorityTodo {
+  LOW
+  MEDIUM
+  HIGH
+}
+
 model Todo {
   id        Int     @id @default(autoincrement())
   todoname  String  @db.VarChar(30)
-  checklist Boolean @default(false)
-
+  status StatusTodo @default(TODO)
+  deadline DateTime 
+  priority PriorityTodo
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   @@map("todo")
 }

@@ -8,6 +8,12 @@ export const todo = new Hono<AppBindings>();
 
 todo.use("*", sessionMiddleware);
 
+todo.get("/", (c) => {
+  const todos = db.todo.findMany();
+
+  return c.json(todos);
+});
+
 /**
  * GET /api/todos
  * GET all todo milik user yang sedang login

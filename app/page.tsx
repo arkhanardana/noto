@@ -19,7 +19,7 @@ export default function Home() {
         <User />
         <div className="flex gap-6">
           <Button
-            onClick={() => setAdd((prev) => !prev)}
+            onClick={() => setAdd(true)}
             className="p-3 [&_svg]:!size-5"
           >
             <Plus />
@@ -42,22 +42,21 @@ export default function Home() {
       </div>
 
       {search && (
-        <Input className="w-full" type="text" placeholder="Search tasks..." />
+        <Input className={`w-full ${add && 'mb-4'}`} type="text" placeholder="Search tasks..." />
       )}
 
-      <div className="grid grid-cols-4 gap-4 py-6">
+      {add && <AddTask onClose={()=>setAdd(false)}/>}
+
+      <div className="grid grid-cols-3 gap-4 py-6">
         <Button>All Tasks</Button>
-        <Button>To-Do</Button>
         <Button>In Progress</Button>
         <Button>Completed</Button>
       </div>
 
-      {add && <AddTask />}
-
       {/* <div className="border-2 min-h-40 w-full rounded-md border-black mt-6 flex items-center justify-center">
         <p className="text-gray-700">No tasks found</p>
       </div> */}
-        <TaskCard/>
+      <TaskCard />
     </section>
   );
 }

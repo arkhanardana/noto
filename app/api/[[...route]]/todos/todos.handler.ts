@@ -8,12 +8,6 @@ export const todo = new Hono<AppBindings>();
 
 todo.use("*", sessionMiddleware);
 
-todo.get("/", (c) => {
-  const todos = db.todo.findMany();
-
-  return c.json(todos);
-});
-
 /**
  * GET /api/todos
  * GET all todo milik user yang sedang login
@@ -32,7 +26,7 @@ todo.get("/", async (c) => {
 /**
  * GET /api/todos/search?q=keyword&status=TODO&priority=HIGH
  * Cari todo berdasarkan:
- * - q (keyword di todoname)
+ * - q (keyword di title/description)
  * - status (TODO, PROGRESS, COMPLETED)
  * - priority (LOW, MEDIUM, HIGH)
  */
@@ -47,14 +41,18 @@ todo.get("/search", async (c) => {
   const todos = await db.todo.findMany({
     where: {
       userId: user.id,
-      ...(q && {
-        todoname: {
-          contains: q,
-          mode: "insensitive",
-        },
-      }),
-      ...(status && { status }),
-      ...(priority && { priority }),
+      AND: [
+        q
+          ? {
+              OR: [
+                { title: { contains: q, mode: "insensitive" } },
+                { description: { contains: q, mode: "insensitive" } },
+              ],
+            }
+          : {},
+        status ? { status } : {},
+        priority ? { priority } : {},
+      ],
     },
   });
 
@@ -81,13 +79,6 @@ todo.get("/:id", async (c) => {
 /**
  * POST /api/todos
  * Tambah todo baru
- * Body:
- * {
- *   "todoname": "Belajar Reaksi",
- *   "deadline": "2025-05-01T15:00:00.000Z",
- *   "status": "TODO",
- *   "priority": "LOW"
- * }
  */
 todo.post("/", async (c) => {
   const user = c.get("user");
@@ -97,12 +88,19 @@ todo.post("/", async (c) => {
   const parsed = todoSchema.safeParse(body);
   if (!parsed.success) return c.json({ error: parsed.error }, 400);
 
-  const { todoname, deadline, status = "TODO", priority = "LOW" } = parsed.data;
+  const {
+    title,
+    description,
+    deadline,
+    status = "TODO",
+    priority = "LOW",
+  } = parsed.data;
 
   const newTodo = await db.todo.create({
     data: {
       userId: user.id,
-      todoname,
+      title,
+      description,
       deadline: new Date(deadline),
       status,
       priority,
@@ -115,13 +113,6 @@ todo.post("/", async (c) => {
 /**
  * PUT /api/todos/:id
  * Edit todo berdasarkan ID (hanya milik sendiri)
- * Body:
- * {
- *   "todoname": "Ngodonf lebih rajin jir",
- *   "status": "PROGRESS",
- *   "deadline": "2025-05-03T15:00:00.000Z",
- *   "priority": "HIGH"
- * }
  */
 todo.put("/:id", async (c) => {
   const user = c.get("user");

@@ -23,6 +23,38 @@ todo.get("/", async (c) => {
 });
 
 /**
+ * GET /api/todos/search?q=keyword&status=TODO&priority=HIGH
+ * Cari todo berdasarkan:
+ * - q (keyword di todoname)
+ * - status (TODO, PROGRESS, DONE)
+ * - priority (LOW, MEDIUM, HIGH)
+ */
+todo.get("/search", async (c) => {
+  const user = c.get("user");
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+
+  const q = c.req.query("q") || "";
+  const status = c.req.query("status");
+  const priority = c.req.query("priority");
+
+  const todos = await db.todo.findMany({
+    where: {
+      userId: user.id,
+      ...(q && {
+        todoname: {
+          contains: q,
+          mode: "insensitive",
+        },
+      }),
+      ...(status && { status }),
+      ...(priority && { priority }),
+    },
+  });
+
+  return c.json(todos);
+});
+
+/**
  * GET /api/todos/:id
  * Ambil 1 todo berdasarkan ID (hanya milik sendiri)
  */

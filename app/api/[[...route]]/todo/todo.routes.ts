@@ -27,7 +27,7 @@ todo.get("/", async (c) => {
  * GET /api/todos/search?q=keyword&status=TODO&priority=HIGH
  * Cari todo berdasarkan:
  * - q (keyword di todoname)
- * - status (TODO, PROGRESS, DONE)
+ * - status (TODO, PROGRESS, COMPLETED)
  * - priority (LOW, MEDIUM, HIGH)
  */
 todo.get("/search", async (c) => {

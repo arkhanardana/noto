@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { todo } from "./todo/todo.routes";
+import { todo } from "./todos/todos.handler";
 
 const app = new Hono();
 

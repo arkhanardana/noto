@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import db from "@/lib/db";
 import { sessionMiddleware } from "../middlewares/session";
-import { todoSchema } from "./todo.schema";
+import { todoSchema } from "./todos.schema";
 import { AppBindings } from "../lib/types";
 
 export const todo = new Hono<AppBindings>();

@@ -1,6 +1,6 @@
 const GetTask = async () => {
     try {
-        const res = await fetch("/api/todos")
+        const res = await fetch("http://localhost:3000/api/todos/api/todos")
         const data =await  res.json()
 
         console.log(data)

@@ -6,20 +6,22 @@ import {
   } from "@/components/ui/card";
 
 import { Checkbox } from "./checkbox";
-import { SquarePen, Trash2, Calendar } from "lucide-react";
+import { SquarePen, Trash2 } from "lucide-react";
 import { Badge } from "./badge";
 
   const TaskCard = () => {
     return (
         <Card className="w-full">
+        <CardHeader className="grid gap-4">
             <Badge className="bg-main">Low</Badge>
             {/* <Badge className="bg-yellow-400">Medium</Badge>
             <Badge className="bg-red-400">High</Badge> */}
-        <CardHeader className="flex items-center gap-4">
+          <div className="flex items-center gap-4">
+
             <Checkbox className="border-black border-2 w-6 h-6"/>
             <div className="">                
-          <CardTitle>My title</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-xl">My title</CardTitle>
+          <CardDescription className="text-base">
       My Description
     </CardDescription>
             </div>
@@ -27,11 +29,12 @@ import { Badge } from "./badge";
                 <SquarePen/>
                 <Trash2/>
             </div>
-        </CardHeader>
+          </div>
         <div className="flex items-center">
-                <Calendar className="w-4 h-4"/>
-            <p className="text-sm">Deadline: 12th April 2025</p>
+                
+            <p className="text-sm flex"><span className="font-semibold mr-1">Deadline:</span>12th April 2025</p>
             </div>
+        </CardHeader>
       </Card>
       
     )

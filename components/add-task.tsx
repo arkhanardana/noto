@@ -26,8 +26,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const AddTask = () => {
+const AddTask = ({onClose}) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [add, setAdd] = useState<Date | undefined>(new Date())
 
   return (
     <Card className="w-full">
@@ -47,7 +48,7 @@ const AddTask = () => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label>Priotity</Label>
+                <Label>Priority</Label>
                 <Priority />
               </div>
               <div className="grid gap-2">
@@ -56,7 +57,7 @@ const AddTask = () => {
                   <form>
                     <DialogTrigger asChild>
                       <Button className="w-full">
-                        <FormatDate dateString={date} />
+                        <FormatDate dateString={add} />
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] bg-white">
@@ -65,17 +66,17 @@ const AddTask = () => {
                       </DialogHeader>
                       <Calendar
                         mode="single"
-                        selected={date}
+                        selected={add}
                         onSelect={setDate}
                         disabled={(date) => date <= new Date()}
                         className="flex justify-center"
                       />
                       <DialogFooter>
                         <DialogClose asChild>
-                          <Button variant="neutral">Cancel</Button>
+                          <Button variant="neutral" onClick={()=>setAdd(new Date())}>Cancel</Button>
                         </DialogClose>
                         <DialogClose>
-                          <Button>Add Date</Button>
+                          <Button onClick={()=>setAdd(date)}>Add Date</Button>
                         </DialogClose>
                       </DialogFooter>
                     </DialogContent>
@@ -87,10 +88,10 @@ const AddTask = () => {
         </form>
       </CardContent>
       <CardFooter className="gap-2 flex ml-auto">
-        <Button variant="neutral" className="">
+        <Button onClick={onClose} variant="neutral" className="">
           Cancel
         </Button>
-        <Button type="submit" className="">
+        <Button onClick={onClose} type="submit" className="">
           Add Task
         </Button>
       </CardFooter>

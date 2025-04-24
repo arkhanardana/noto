@@ -7,6 +7,7 @@ import Filter from "@/components/filter";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import AddTask from "@/components/add-task";
+import TaskCard from "@/components/ui/task-card";
 
 export default function Home() {
   const [search, setSearch] = useState(false);
@@ -53,9 +54,10 @@ export default function Home() {
 
       {add && <AddTask />}
 
-      <div className="border-2 min-h-40 w-full rounded-md border-black mt-6 flex items-center justify-center">
+      {/* <div className="border-2 min-h-40 w-full rounded-md border-black mt-6 flex items-center justify-center">
         <p className="text-gray-700">No tasks found</p>
-      </div>
+      </div> */}
+        <TaskCard/>
     </section>
   );
 }

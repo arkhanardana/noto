@@ -62,12 +62,11 @@ todo.post("/", async (c) => {
 
   const newTodo = await db.todo.create({
     data: {
-      userId,
+      userId: user.id,
       todoname,
       deadline: new Date(deadline),
       status,
       priority,
-      userId: user.id,
     },
   });
 

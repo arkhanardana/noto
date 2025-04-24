@@ -11,9 +11,25 @@ import {
 import { authClient } from "@/lib/auth-client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Profile = () => {
+  const router = useRouter();
   const session = authClient.useSession();
+  const logout = async () => {
+    try {
+      return await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            router.push("/");
+            router.refresh();
+          },
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const user = session?.data?.user;
 
@@ -33,10 +49,10 @@ const Profile = () => {
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem>
+        <Button onClick={logout} variant={"noShadow"} size={"sm"}>
           <LogOut />
-          <span>Log out</span>
-        </DropdownMenuItem>
+          Log out
+        </Button>
       </DropdownMenuContent>
     </DropdownMenu>
   );

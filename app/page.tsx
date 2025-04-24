@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import User from "@/components/user";
-import { Search, Menu, Plus } from "lucide-react";
+import { Search, Plus, SunIcon } from "lucide-react";
 import Filter from "@/components/filter";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -31,7 +31,7 @@ export default function Home() {
             <Search />
           </Button>
           <Button className="p-3 [&_svg]:!size-5">
-            <Menu />
+            <SunIcon />
           </Button>
         </div>
       </div>

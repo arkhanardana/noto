@@ -86,13 +86,14 @@ enum PriorityTodo {
 }
 
 model Todo {
-  id       Int          @id @default(autoincrement())
-  todoname String       @db.VarChar(30)
-  status   StatusTodo   @default(TODO)
-  deadline DateTime
-  priority PriorityTodo
-  userId   String
-  user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          Int          @id @default(autoincrement())
+  title       String       @db.VarChar(30)
+  description String       @db.VarChar(255)
+  status      StatusTodo   @default(TODO)
+  deadline    DateTime
+  priority    PriorityTodo
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

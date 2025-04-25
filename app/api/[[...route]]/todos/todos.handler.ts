@@ -3,6 +3,7 @@ import db from "@/lib/db";
 import { sessionMiddleware } from "../middlewares/session";
 import { todoSchema } from "./todos.schema";
 import { AppBindings } from "../lib/types";
+import { zValidator } from "@hono/zod-validator";
 
 export const todo = new Hono<AppBindings>();
 
@@ -80,13 +81,9 @@ todo.get("/:id", async (c) => {
  * POST /api/todos
  * Tambah todo baru
  */
-todo.post("/", async (c) => {
+todo.post("/", zValidator("json", todoSchema), async (c) => {
   const user = c.get("user");
   if (!user) return c.json({ error: "Unauthorized" }, 401);
-
-  const body = await c.req.json();
-  const parsed = todoSchema.safeParse(body);
-  if (!parsed.success) return c.json({ error: parsed.error }, 400);
 
   const {
     title,
@@ -94,7 +91,7 @@ todo.post("/", async (c) => {
     deadline,
     status = "TODO",
     priority = "LOW",
-  } = parsed.data;
+  } = c.req.valid("json");
 
   const newTodo = await db.todo.create({
     data: {
@@ -114,24 +111,19 @@ todo.post("/", async (c) => {
  * PUT /api/todos/:id
  * Edit todo berdasarkan ID (hanya milik sendiri)
  */
-todo.put("/:id", async (c) => {
+todo.put("/:id", zValidator("json", todoSchema.partial()), async (c) => {
   const user = c.get("user");
   const id = Number(c.req.param("id"));
 
   const existing = await db.todo.findUnique({ where: { id } });
   if (!existing || existing.userId !== user?.id) return c.notFound();
 
-  const body = await c.req.json();
-  const parsed = todoSchema.partial().safeParse(body);
-  if (!parsed.success) return c.json({ error: parsed.error }, 400);
-
+  const data = c.req.valid("json");
   const updated = await db.todo.update({
     where: { id },
     data: {
-      ...parsed.data,
-      deadline: parsed.data.deadline
-        ? new Date(parsed.data.deadline)
-        : undefined,
+      ...data,
+      deadline: data.deadline ? new Date(data.deadline) : undefined,
     },
   });
 

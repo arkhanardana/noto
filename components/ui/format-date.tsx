@@ -1,4 +1,4 @@
-export function getDaySuffix(day) {
+export function getDaySuffix(day: number) {
     if (day >= 11 && day <= 13) {
       return "th";
     }
@@ -14,7 +14,7 @@ export function getDaySuffix(day) {
     }
 }
 
-const FormatDate = ({ dateString }) => {
+const FormatDate = ( dateString: Date ) => {
   const date = new Date(dateString);
 
   const day = date.getDate();

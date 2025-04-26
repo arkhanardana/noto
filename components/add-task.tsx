@@ -13,7 +13,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "./ui/textarea";
-import Priority from "./priority";
 import FormatDate from "./ui/format-date";
 
 import {
@@ -26,9 +25,43 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const AddTask = ({onClose}) => {
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import PostTask from "./post-task";
+
+type Priority = "LOW" | "MEDIUM" | "HIGH";
+
+const AddTask = ({ onClose }) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const [add, setAdd] = useState<Date | undefined>(new Date())
+  const [add, setAdd] = useState<Date>(new Date());
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [priority, setPriority] = useState<Priority>("MEDIUM");
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+  const handleDescChange = (e) => {
+    setDesc(e.target.value);
+  };
+
+
+  console.log(title, desc, priority, "TODO", add.toISOString())
+
+  console.log({
+    title: { value: title, type: typeof title },
+    desc: { value: desc, type: typeof desc },
+    priority: { value: priority, type: typeof priority },
+    status: { value: "TODO", type: typeof "TODO" },
+    date: { value: add.toISOString, type: typeof add.toISOString() }
+  });
 
   return (
     <Card className="w-full">
@@ -40,16 +73,39 @@ const AddTask = ({onClose}) => {
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" type="name" placeholder="My Title" required />
+              <Input
+                id="title"
+                type="name"
+                placeholder="My Title"
+                value={title}
+                onChange={handleTitleChange}
+                required
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="desc">Description</Label>
-              <Textarea id="desc" required />
+              <Textarea
+                id="desc"
+                value={desc}
+                onChange={handleDescChange}
+                required
+              />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label>Priority</Label>
-                <Priority />
+                <Select onValueChange={setPriority}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="HIGH">HIGH</SelectItem>
+                      <SelectItem value="MEDIUM">MEDIUM</SelectItem>
+                      <SelectItem value="LOW">LOW</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="grid gap-2">
                 <Label>Deadline</Label>
@@ -57,7 +113,7 @@ const AddTask = ({onClose}) => {
                   <form>
                     <DialogTrigger asChild>
                       <Button className="w-full">
-                        <FormatDate dateString={add} />
+                        {FormatDate(add)}
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] bg-white">
@@ -73,10 +129,15 @@ const AddTask = ({onClose}) => {
                       />
                       <DialogFooter>
                         <DialogClose asChild>
-                          <Button variant="neutral" onClick={()=>setAdd(new Date())}>Cancel</Button>
+                          <Button
+                            variant="neutral"
+                            onClick={() => setAdd(new Date())}
+                          >
+                            Cancel
+                          </Button>
                         </DialogClose>
                         <DialogClose>
-                          <Button onClick={()=>setAdd(date)}>Add Date</Button>
+                          <Button onClick={() => setAdd(date)}>Add Date</Button>
                         </DialogClose>
                       </DialogFooter>
                     </DialogContent>
@@ -91,7 +152,11 @@ const AddTask = ({onClose}) => {
         <Button onClick={onClose} variant="neutral" className="">
           Cancel
         </Button>
-        <Button onClick={onClose} type="submit" className="">
+        <Button
+          onClick={() => PostTask(title, desc, "TODO", priority, add.toISOString(), onClose)}
+          type="submit"
+          className=""
+        >
           Add Task
         </Button>
       </CardFooter>

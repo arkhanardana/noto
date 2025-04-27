@@ -137,7 +137,7 @@ const AddTask = ({ onClose }) => {
                           </Button>
                         </DialogClose>
                         <DialogClose>
-                          <Button onClick={() => setAdd(date)}>Add Date</Button>
+                          <Button onClick={() => setAdd(date)}>Add Deadline</Button>
                         </DialogClose>
                       </DialogFooter>
                     </DialogContent>
@@ -153,7 +153,7 @@ const AddTask = ({ onClose }) => {
           Cancel
         </Button>
         <Button
-          onClick={() => PostTask(title, desc, "TODO", priority, add.toISOString(), onClose)}
+          onClick={() => PostTask(title, desc, "PROGRESS", priority, add.toISOString(), onClose)}
           type="submit"
           className=""
         >

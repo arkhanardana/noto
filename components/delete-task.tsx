@@ -1,12 +1,12 @@
-const DeleteTask = async ({id}) => {
+import { toast } from "sonner"
+
+const DeleteTask = async (id:number) => {
     try {
-        const res = await fetch(`http://localhost:3000/api/todos/api/todos/${id}`, {
+        await fetch(`http://localhost:3000/api/todos/${id}`, {
             method: "DELETE"
         })
-        const data =await  res.json()
 
-        console.log(data)
-        return data
+        toast.success("Task deleted successfully")
     } catch (error) {
         console.log(error)
     }

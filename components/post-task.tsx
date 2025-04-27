@@ -1,6 +1,6 @@
 import { toast } from "sonner";
 
-type Status = "TODO" | "PROGRESS" | "COMPLETED";
+type Status = "PROGRESS" | "COMPLETED";
 type Priority = "LOW" | "MEDIUM" | "HIGH";
 
 const PostTask = async (

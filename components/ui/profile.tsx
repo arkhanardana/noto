@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 const Profile = () => {
   const router = useRouter();
   const session = authClient.useSession();
+
   const logout = async () => {
     try {
       return await authClient.signOut({

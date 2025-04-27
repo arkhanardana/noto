@@ -25,7 +25,7 @@ todo.get("/", async (c) => {
 });
 
 /**
- * GET /api/todos/search?q=keyword&status=TODO&priority=HIGH
+ * GET /api/todos/search?q=keyword&status=PROGRESS&priority=HIGH
  * Cari todo berdasarkan:
  * - q (keyword di title/description)
  * - status (TODO, PROGRESS, COMPLETED)
@@ -89,7 +89,7 @@ todo.post("/", zValidator("json", todoSchema), async (c) => {
     title,
     description,
     deadline,
-    status = "TODO",
+    status = "PROGRESS",
     priority = "LOW",
   } = c.req.valid("json");
 

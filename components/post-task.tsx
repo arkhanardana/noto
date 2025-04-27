@@ -1,28 +1,38 @@
-type UserProps = {
-    titles: string,
-    descs: string,
-    priorities: string,
-    dates: string
-  };
+import { toast } from "sonner";
 
-const PostTask = async ({titles, descs, priorities, dates}: UserProps) => {
-    try {
-        const res = await fetch("http://localhost:3000/api/todos", {
-            method: "POST",
-            body: JSON.stringify({
-                "title": titles,
-                "desc" : descs,
-                "priority": priorities,
-                "deadline": dates
-            })
-        })
-        const data = await  res.json()
+type Status = "TODO" | "PROGRESS" | "COMPLETED";
+type Priority = "LOW" | "MEDIUM" | "HIGH";
 
-        console.log(data)
-        return data
-    } catch (error) {
-        console.log(error)
-    }
-}
+const PostTask = async (
+  titles: string,
+  descriptions: string,
+  statuses: Status,
+  priorities: Priority,
+  deadlines: string,
+  onClose: ()=> void
+) => {
+  try {
+    await fetch("/api/todos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: titles, 
+        description: descriptions, 
+        status: statuses,
+        priority: priorities,
+        deadline: deadlines,
+      }),
+    });
 
-export default PostTask
+    toast.success("Successfully create task")
+  } catch (error) {
+    console.log(error);
+    toast.error("Failed to create task")
+  } finally{
+    onClose()
+  }
+};
+
+export default PostTask;

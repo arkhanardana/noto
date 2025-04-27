@@ -22,12 +22,24 @@ const config: Config = {
         ringOffset: "var(--ring-offset)",
 
         secondaryBlack: "#212121",
+
+        dark: {
+          bg: 'var(--bg)',
+          bw: 'var(--bw)',
+          blank: 'var(--blank)',
+          border: 'var(--border)',
+          text: 'var(--text)',
+          mtext: 'var(--mtext)',
+          ring: 'var(--ring)',
+          'ring-offset': 'var(--ring-offset)',
+        },
       },
       borderRadius: {
         base: "5px",
       },
       boxShadow: {
         shadow: "var(--shadow)",
+        dark: 'var(--shadow)',
       },
       translate: {
         boxShadowX: "4px",

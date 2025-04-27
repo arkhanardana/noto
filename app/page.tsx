@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import User from "@/components/user";
-import { Search, Plus, SunIcon } from "lucide-react";
+import { Search, Plus, SunIcon, MoonIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import AddTask from "@/components/add-task";
@@ -20,6 +20,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { useThemeContext } from "@/components/theme-provider";
+
 const PRIORITY_ORDER: Record<string, number> = {
   HIGH: 1,
   MEDIUM: 2,
@@ -34,6 +36,8 @@ export default function Home() {
   const [taskElement, setTaskElement] = useState([]);
   const [activeButton, setActiveButton] = useState<number>(1);
   const [searchValue, setSearchValue] = useState("");
+
+  const { theme, toggleTheme, isMounted } = useThemeContext()
 
   useEffect(() => {
     const fetchTasks = async (e) => {
@@ -112,6 +116,13 @@ export default function Home() {
     setSearch((prev) => !prev)
   }
 
+  if (!isMounted) {
+    return (
+      <div className="w-10 h-10"></div> // Empty placeholder while loading
+    )
+  }
+
+
   return (
     <section className="mx-auto max-w-3xl py-4 md:px-0 px-4">
       <div className="flex justify-between items-center">
@@ -126,8 +137,12 @@ export default function Home() {
           >
             <Search />
           </Button>
-          <Button className="p-3 [&_svg]:!size-5">
-            <SunIcon />
+          <Button onClick={toggleTheme} className="p-3 [&_svg]:!size-5" aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}>
+            {theme === 'dark' ? (
+              <MoonIcon/>
+            ) : (
+              <SunIcon />
+            )}
           </Button>
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import {
@@ -36,19 +36,33 @@ import {
 
 import UpdateTask from "./update-task";
 
+type Task = {
+  id: number;
+  title: string;
+  description: string;
+  priority: "LOW" | "MEDIUM" | "HIGH";
+  status: "PROGRESS" | "COMPLETED";
+  deadline: Date;
+};
+
+interface TaskCardProps {
+  e: Task;
+  onClose: () => void;
+}
+
 type Priority = "LOW" | "MEDIUM" | "HIGH";
 
-const EditTask = ({ onClose, e }) => {
+const EditTask = ({ onClose, e }: TaskCardProps) => {
   const [date, setDate] = useState<Date | undefined>(e.deadline);
   const [add, setAdd] = useState(e.deadline);
   const [title, setTitle] = useState(e.title);
   const [desc, setDesc] = useState(e.description);
   const [priority, setPriority] = useState<Priority>(e.priority);
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
-  const handleDescChange = (e) => {
+  const handleDescChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDesc(e.target.value);
   };
 
@@ -65,7 +79,9 @@ const EditTask = ({ onClose, e }) => {
         <form>
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
-              <Label htmlFor="title" className="text-text">Title</Label>
+              <Label htmlFor="title" className="text-text">
+                Title
+              </Label>
               <Input
                 id="title"
                 type="name"

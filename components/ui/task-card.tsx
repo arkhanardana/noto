@@ -27,14 +27,28 @@ import DeleteTask from "../delete-task";
 import { UpdateStatus } from "../update-task";
 import { useState } from "react";
 
-const TaskCard = ({ e, update }) => {
-  const [status, setStatus] = useState(e.status);
+type Task = {
+  id: number;
+  title: string;
+  description: string;
+  priority: "LOW" | "MEDIUM" | "HIGH";
+  status: "PROGRESS" | "COMPLETED";
+  deadline: Date;
+};
+
+interface TaskCardProps {
+  e: Task;
+  update: () => void;
+}
+
+const TaskCard: React.FC<TaskCardProps> = ({ e, update }) => {
+  const [status, setStatus] = useState<Task["status"]>(e.status);
 
   const handleStatus = () => {
     if (status === "PROGRESS") {
       setStatus("COMPLETED");
-    } 
-    if(status === "COMPLETED") {
+    }
+    if (status === "COMPLETED") {
       setStatus("PROGRESS");
     }
   };
@@ -56,7 +70,11 @@ const TaskCard = ({ e, update }) => {
         <div className="flex items-center gap-4">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Checkbox className="border-text border-2 w-6 h-6" status={e.status} onStatusChange={handleStatus}/>
+              <Checkbox
+                className="border-text border-2 w-6 h-6"
+                status={e.status}
+                onStatusChange={handleStatus}
+              />
             </AlertDialogTrigger>
             <AlertDialogContent className="bg-white">
               <AlertDialogHeader>
@@ -75,17 +93,17 @@ const TaskCard = ({ e, update }) => {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-          <div className="">
+          <div>
             <CardTitle className="text-xl text-text">{e.title}</CardTitle>
             <CardDescription className="text-base text-text">
               {e.description}
             </CardDescription>
           </div>
           <div className="ml-auto flex gap-4">
-            <SquarePen onClick={update} className="text-text"/>
+            <SquarePen onClick={update} className="text-text" />
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Trash2 className="text-text"/>
+                <Trash2 className="text-text" />
               </AlertDialogTrigger>
               <AlertDialogContent className="bg-white">
                 <AlertDialogHeader>

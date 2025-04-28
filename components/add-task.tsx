@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,17 +38,22 @@ import PostTask from "./post-task";
 
 type Priority = "LOW" | "MEDIUM" | "HIGH";
 
-const AddTask = ({ onClose }) => {
+interface AddTaskProps {
+  onClose: () => void;
+}
+
+const AddTask = ({ onClose }: AddTaskProps) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [add, setAdd] = useState<Date>(new Date());
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [desc, setDesc] = useState<string>("");
   const [priority, setPriority] = useState<Priority>("MEDIUM");
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
-  const handleDescChange = (e) => {
+
+  const handleDescChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setDesc(e.target.value);
   };
 
@@ -87,7 +92,7 @@ const AddTask = ({ onClose }) => {
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label className="text-text">Priority</Label>
-                <Select onValueChange={setPriority}>
+                <Select onValueChange={(value: Priority) => setPriority(value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Level" />
                   </SelectTrigger>
@@ -114,7 +119,9 @@ const AddTask = ({ onClose }) => {
                       <Calendar
                         mode="single"
                         selected={add}
-                        onSelect={setDate}
+                        onSelect={(selected: Date | undefined) =>
+                          setDate(selected)
+                        }
                         disabled={(date) => date <= new Date()}
                         className="flex justify-center"
                       />
@@ -132,7 +139,7 @@ const AddTask = ({ onClose }) => {
                           </Button>
                         </DialogClose>
                         <DialogClose>
-                          <Button onClick={() => setAdd(date)}>
+                          <Button onClick={() => date && setAdd(date)}>
                             Add Deadline
                           </Button>
                         </DialogClose>

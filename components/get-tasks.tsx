@@ -1,4 +1,4 @@
-const GetTask = async (search) => {
+const GetTask = async (search: string) => {
   try {
     const res = await fetch(`http://localhost:3000/api/todos${search}`);
     const data = await res.json();

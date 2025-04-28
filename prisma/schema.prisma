@@ -19,6 +19,7 @@ model User {
   email         String    @unique
   name          String?
   image         String?
+  role          UserRole  @default(USER)
   emailVerified Boolean
   createdAt     DateTime
   updatedAt     DateTime
@@ -27,6 +28,11 @@ model User {
   todos         Todo[]
 
   @@map("user")
+}
+
+enum UserRole {
+  ADMIN
+  USER
 }
 
 model Session {

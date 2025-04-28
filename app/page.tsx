@@ -28,6 +28,8 @@ const PRIORITY_ORDER: Record<string, number> = {
   LOW: 3,
 };
 
+import { Skeleton } from "@/components/ui/skeleton";
+
 export default function Home() {
   const [search, setSearch] = useState(false);
   const [add, setAdd] = useState(false);
@@ -36,11 +38,13 @@ export default function Home() {
   const [taskElement, setTaskElement] = useState([]);
   const [activeButton, setActiveButton] = useState<number>(1);
   const [searchValue, setSearchValue] = useState("");
+  const [isLaoding, setIsLoading] = useState(false);
 
-  const { theme, toggleTheme, isMounted } = useThemeContext()
+  const { theme, toggleTheme, isMounted } = useThemeContext();
 
   useEffect(() => {
     const fetchTasks = async (e) => {
+      setIsLoading(false);
       try {
         if (activeButton === 1) {
           const tasks = await GetTask(`/search?q=${e}`);
@@ -57,6 +61,8 @@ export default function Home() {
       } catch (error) {
         console.error("Failed to fetch tasks:", error);
         setTasksData([]);
+      } finally {
+        setIsLoading(true);
       }
     };
 
@@ -107,21 +113,20 @@ export default function Home() {
     setTasksData(sortedTasks);
   };
 
-  const handleSearchChange = (e)=>{
+  const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
-  }
+  };
 
-  const handleCloseSearch = ()=>{
-    setSearchValue("")
-    setSearch((prev) => !prev)
-  }
+  const handleCloseSearch = () => {
+    setSearchValue("");
+    setSearch((prev) => !prev);
+  };
 
   if (!isMounted) {
     return (
       <div className="w-10 h-10"></div> // Empty placeholder while loading
-    )
+    );
   }
-
 
   return (
     <section className="mx-auto max-w-3xl py-4 md:px-0 px-4">
@@ -131,18 +136,17 @@ export default function Home() {
           <Button onClick={handleAdd} className="p-3 [&_svg]:!size-5">
             <Plus />
           </Button>
-          <Button
-            onClick={handleCloseSearch}
-            className="p-3 [&_svg]:!size-5"
-          >
+          <Button onClick={handleCloseSearch} className="p-3 [&_svg]:!size-5">
             <Search />
           </Button>
-          <Button onClick={toggleTheme} className="p-3 [&_svg]:!size-5" aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}>
-            {theme === 'dark' ? (
-              <MoonIcon/>
-            ) : (
-              <SunIcon />
-            )}
+          <Button
+            onClick={toggleTheme}
+            className="p-3 [&_svg]:!size-5"
+            aria-label={`Switch to ${
+              theme === "light" ? "dark" : "light"
+            } mode`}
+          >
+            {theme === "dark" ? <MoonIcon /> : <SunIcon />}
           </Button>
         </div>
       </div>
@@ -197,16 +201,26 @@ export default function Home() {
         </Button>
       </div>
 
-      {tasksData.length == 0? (
-        <Card className="flex items-center py-10">
-          <p className="text-text">No tasks found</p>
-        </Card>
+      {isLaoding ? (
+        tasksData.length == 0 ? (
+          <Card className="flex items-center py-10">
+            <p className="text-text">No tasks found</p>
+          </Card>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {tasksData.map((e, i) => (
+              <TaskCard key={i} e={e} update={() => handleUpdate(e)} />
+            ))}
+          </div>
+        )
       ) : (
-        <div className="flex flex-col gap-4">
-          {tasksData.map((e, i) => (
-            <TaskCard key={i} e={e} update={() => handleUpdate(e)} />
-          ))}
-        </div>
+        <Card className="px-6">
+          <Skeleton className="w-20 h-5" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+          </div>
+        </Card>
       )}
     </section>
   );

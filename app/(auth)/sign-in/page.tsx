@@ -33,7 +33,9 @@ export default function SignInPage() {
           </span>
           <div className="absolute -top-1 -right-3 w-2 h-2 md:w-3 md:h-3 bg-main rounded-full" />
         </div>
-        <p className="text-sm text-slate-500 mt-1 dark:text-slate-50">Manage your daily task</p>
+        <p className="text-sm text-slate-500 mt-1 dark:text-slate-50">
+          Manage your daily task
+        </p>
       </div>
       <Card className="w-full max-w-sm bg-white">
         {!session?.data && (

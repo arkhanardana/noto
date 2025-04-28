@@ -28,16 +28,15 @@ import { UpdateStatus } from "../update-task";
 import { useState } from "react";
 
 const TaskCard = ({ e, update }) => {
-
   const [status, setStatus] = useState(e.status);
 
-  const handleStatus = ()=>{
-    if(status === "PROGRESS"){
-      setStatus("COMPLETED")
-    }else{
-      setStatus("PROGRESS")
+  const handleStatus = () => {
+    if (status === "PROGRESS") {
+      setStatus("COMPLETED");
+    } else {
+      setStatus("PROGRESS");
     }
-  }
+  };
 
   return (
     <Card className="w-full">
@@ -60,14 +59,16 @@ const TaskCard = ({ e, update }) => {
             </AlertDialogTrigger>
             <AlertDialogContent className="bg-white">
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you sure to change status?</AlertDialogTitle>
+                <AlertDialogTitle>
+                  Are you sure to change status?
+                </AlertDialogTitle>
                 <AlertDialogDescription>
                   This action will change your task&apos;s status
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => UpdateStatus( status, e.id)}>
+                <AlertDialogAction onClick={() => UpdateStatus(status, e.id)}>
                   Continue
                 </AlertDialogAction>
               </AlertDialogFooter>

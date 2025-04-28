@@ -1,17 +1,14 @@
-import { headers } from "next/headers"
+import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 
 const getUser = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-    const session = await auth.api.getSession({
-        headers: await headers(),
-      });
+  const data = session?.user;
 
-      const data = session?.user;
+  return data;
+};
 
-  return (
-    data
-  )
-}
-
-export default getUser
+export default getUser;

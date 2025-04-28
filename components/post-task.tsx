@@ -9,7 +9,7 @@ const PostTask = async (
   statuses: Status,
   priorities: Priority,
   deadlines: string,
-  onClose: ()=> void
+  onClose: () => void
 ) => {
   try {
     await fetch("/api/todos", {
@@ -18,20 +18,21 @@ const PostTask = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: titles, 
-        description: descriptions, 
+        title: titles,
+        description: descriptions,
         status: statuses,
         priority: priorities,
         deadline: deadlines,
       }),
     });
 
-    toast.success("Successfully create task")
+    toast.success("Successfully create task");
   } catch (error) {
     console.log(error);
-    toast.error("Failed to create task")
-  } finally{
-    onClose()
+    toast.error("Failed to create task");
+  } finally {
+    onClose();
+    window.location.reload();
   }
 };
 

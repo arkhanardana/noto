@@ -61,7 +61,9 @@ const AddTask = ({ onClose }) => {
         <form>
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
-              <Label htmlFor="title" className="text-text">Title</Label>
+              <Label htmlFor="title" className="text-text">
+                Title
+              </Label>
               <Input
                 id="title"
                 type="name"
@@ -72,7 +74,9 @@ const AddTask = ({ onClose }) => {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="desc" className="text-text">Description</Label>
+              <Label htmlFor="desc" className="text-text">
+                Description
+              </Label>
               <Textarea
                 id="desc"
                 value={desc}
@@ -101,9 +105,7 @@ const AddTask = ({ onClose }) => {
                 <Dialog>
                   <form>
                     <DialogTrigger asChild>
-                      <Button className="w-full">
-                        {FormatDate(add)}
-                      </Button>
+                      <Button>{FormatDate(add)}</Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] bg-white">
                       <DialogHeader>
@@ -116,6 +118,10 @@ const AddTask = ({ onClose }) => {
                         disabled={(date) => date <= new Date()}
                         className="flex justify-center"
                       />
+                      <p className="text-center mt-2 text-sm text-text">
+                        Selected date:{" "}
+                        {date ? FormatDate(date) : FormatDate(add)}
+                      </p>
                       <DialogFooter>
                         <DialogClose asChild>
                           <Button
@@ -126,7 +132,9 @@ const AddTask = ({ onClose }) => {
                           </Button>
                         </DialogClose>
                         <DialogClose>
-                          <Button onClick={() => setAdd(date)}>Add Deadline</Button>
+                          <Button onClick={() => setAdd(date)}>
+                            Add Deadline
+                          </Button>
                         </DialogClose>
                       </DialogFooter>
                     </DialogContent>
@@ -142,7 +150,16 @@ const AddTask = ({ onClose }) => {
           Cancel
         </Button>
         <Button
-          onClick={() => PostTask(title, desc, "PROGRESS", priority, add.toISOString(), onClose)}
+          onClick={() =>
+            PostTask(
+              title,
+              desc,
+              "PROGRESS",
+              priority,
+              add.toISOString(),
+              onClose
+            )
+          }
           type="submit"
           disabled={!title || !desc || !priority || !add}
         >

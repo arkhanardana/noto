@@ -49,7 +49,7 @@ const Profile = () => {
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <Button onClick={logout} variant={"noShadow"} size={"sm"}>
+        <Button onClick={logout} variant={"noBorder"} size={"sm"}>
           <LogOut />
           Log out
         </Button>

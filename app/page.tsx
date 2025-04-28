@@ -23,14 +23,13 @@ import {
 import { useThemeContext } from "@/components/theme-provider";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Tambahkan type Task
 type Task = {
-  id: string;
+  id: number;
   title: string;
   priority: "HIGH" | "MEDIUM" | "LOW";
-  deadline: string;
+  deadline: Date;
   status: "PROGRESS" | "COMPLETED";
-  // Tambahkan field lain jika perlu
+  description: string;
 };
 
 const PRIORITY_ORDER: Record<string, number> = {

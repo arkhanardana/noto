@@ -8,7 +8,7 @@ const UpdateTask = async (
   descriptions: string,
   statuses: Status,
   priorities: Priority,
-  deadlines: string,
+  deadlines: Date,
   onClose: () => void,
   id: number
 ) => {

@@ -11,7 +11,7 @@ export default function User() {
   return (
     <div className="flex items-center">
       <Profile />
-      <DropdownMenuLabel className="text-xl ml-1 text-text">
+      <DropdownMenuLabel className="text-sm sm:text-base ml-1 text-text">
         {user?.name}
       </DropdownMenuLabel>
     </div>

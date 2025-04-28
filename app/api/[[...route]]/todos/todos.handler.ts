@@ -11,28 +11,16 @@ export const todo = new Hono<AppBindings>();
 
 todo.use("*", sessionMiddleware);
 
-/**
- * GET /api/todos
- * GET all todo milik user yang sedang login
- */
 todo.get("/", async (c) => {
-  const user = c.get("user");
-  if (!user) return c.json({ error: "Unauthorized" }, 401);
-
   const todos = await db.todo.findMany({
-    where: { userId: user.id },
+    include: {
+      user: true,
+    },
   });
 
   return c.json(todos);
 });
 
-/**
- * GET /api/todos/search?q=keyword&status=PROGRESS&priority=HIGH
- * Cari todo berdasarkan:
- * - q (keyword di title/description)
- * - status (TODO, PROGRESS, COMPLETED)
- * - priority (LOW, MEDIUM, HIGH)
- */
 todo.get("/search", async (c) => {
   const user = c.get("user");
   if (!user) return c.json({ error: "Unauthorized" }, 401);
@@ -62,10 +50,6 @@ todo.get("/search", async (c) => {
   return c.json(todos);
 });
 
-/**
- * GET /api/todos/:id
- * Ambil 1 todo berdasarkan ID (hanya milik sendiri)
- */
 todo.get("/:id", async (c) => {
   const user = c.get("user");
   const id = Number(c.req.param("id"));
@@ -79,10 +63,6 @@ todo.get("/:id", async (c) => {
   return c.json(todo);
 });
 
-/**
- * POST /api/todos
- * Tambah todo baru
- */
 todo.post("/", zValidator("json", todoSchema), async (c) => {
   const user = c.get("user");
   if (!user) return c.json({ error: "Unauthorized" }, 401);
@@ -109,10 +89,6 @@ todo.post("/", zValidator("json", todoSchema), async (c) => {
   return c.json(newTodo, 201);
 });
 
-/**
- * PUT /api/todos/:id
- * Edit todo berdasarkan ID (hanya milik sendiri)
- */
 todo.put("/:id", zValidator("json", todoSchema.partial()), async (c) => {
   const user = c.get("user");
   const id = Number(c.req.param("id"));
@@ -132,10 +108,6 @@ todo.put("/:id", zValidator("json", todoSchema.partial()), async (c) => {
   return c.json(updated);
 });
 
-/**
- * DELETE /api/todos/:id
- * Hapus todo berdasarkan ID
- */
 todo.delete("/:id", async (c) => {
   const user = c.get("user");
   const id = Number(c.req.param("id"));

@@ -110,7 +110,7 @@ const AddTask = ({ onClose }: AddTaskProps) => {
                 <Dialog>
                   <form>
                     <DialogTrigger asChild>
-                      <Button>{FormatDate(add)}</Button>
+                      <Button className="w-full">{FormatDate(add)}</Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] bg-white">
                       <DialogHeader>

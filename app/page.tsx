@@ -1,10 +1,10 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import User from "@/components/user";
 import { Search, Plus, SunIcon, MoonIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useState, useEffect } from "react";
 import AddTask from "@/components/add-task";
 import TaskCard from "@/components/ui/task-card";
 import GetTask from "@/components/get-tasks";
@@ -21,6 +21,17 @@ import {
 } from "@/components/ui/select";
 
 import { useThemeContext } from "@/components/theme-provider";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Tambahkan type Task
+type Task = {
+  id: string;
+  title: string;
+  priority: "HIGH" | "MEDIUM" | "LOW";
+  deadline: string;
+  status: "PROGRESS" | "COMPLETED";
+  // Tambahkan field lain jika perlu
+};
 
 const PRIORITY_ORDER: Record<string, number> = {
   HIGH: 1,
@@ -28,36 +39,31 @@ const PRIORITY_ORDER: Record<string, number> = {
   LOW: 3,
 };
 
-import { Skeleton } from "@/components/ui/skeleton";
-
 export default function Home() {
   const [search, setSearch] = useState(false);
   const [add, setAdd] = useState(false);
   const [update, setUpdate] = useState(false);
-  const [tasksData, setTasksData] = useState([]);
-  const [taskElement, setTaskElement] = useState([]);
+  const [tasksData, setTasksData] = useState<Task[]>([]);
+  const [taskElement, setTaskElement] = useState<Task | null>(null);
   const [activeButton, setActiveButton] = useState<number>(1);
   const [searchValue, setSearchValue] = useState("");
-  const [isLaoding, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { theme, toggleTheme, isMounted } = useThemeContext();
 
   useEffect(() => {
-    const fetchTasks = async (e) => {
+    const fetchTasks = async (e: string) => {
       setIsLoading(false);
       try {
+        let tasks: Task[] = [];
         if (activeButton === 1) {
-          const tasks = await GetTask(`/search?q=${e}`);
-          setTasksData(tasks);
+          tasks = await GetTask(`/search?q=${e}`);
+        } else if (activeButton === 2) {
+          tasks = await GetTask(`/search?q=${e}&status=PROGRESS`);
+        } else if (activeButton === 3) {
+          tasks = await GetTask(`/search?q=${e}&status=COMPLETED`);
         }
-        if (activeButton === 2) {
-          const tasks = await GetTask(`/search?q=${e}&status=PROGRESS`);
-          setTasksData(tasks);
-        }
-        if (activeButton === 3) {
-          const tasks = await GetTask(`/search?&q=${e}&status=COMPLETED`);
-          setTasksData(tasks);
-        }
+        setTasksData(tasks);
       } catch (error) {
         console.error("Failed to fetch tasks:", error);
         setTasksData([]);
@@ -73,47 +79,37 @@ export default function Home() {
     setAdd(true);
     setUpdate(false);
   };
-  const handleUpdate = (e) => {
+
+  const handleUpdate = (e: Task) => {
     setAdd(false);
     setUpdate(true);
     setTaskElement(e);
   };
 
   const handleFilterChange = (value: string) => {
-    // Create a copy of taskData to avoid mutating the original array
     const sortedTasks = [...tasksData].sort((a, b) => {
       if (value === "priority") {
         const priorityA = PRIORITY_ORDER[a.priority];
         const priorityB = PRIORITY_ORDER[b.priority];
-
-        // First sort by priority
         if (priorityA !== priorityB) {
           return priorityA - priorityB;
         }
-
-        // If priorities are equal, sort by title (A-Z)
         return a.title.localeCompare(b.title);
-      }
-      // Deadline sorting (earliest first)
-      else if (value === "deadline") {
+      } else if (value === "deadline") {
         const dateA = new Date(a.deadline).getTime();
         const dateB = new Date(b.deadline).getTime();
-
-        // First sort by deadline
         if (dateA !== dateB) {
           return dateA - dateB;
         }
-
-        // If deadlines are equal, sort by title (A-Z)
         return a.title.localeCompare(b.title);
       }
-      return 0; // No sorting if filter is empty or unknown
+      return 0;
     });
 
     setTasksData(sortedTasks);
   };
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
 
@@ -124,7 +120,7 @@ export default function Home() {
 
   if (!isMounted) {
     return (
-      <div className="w-10 h-10"></div> // Empty placeholder while loading
+      <div className="w-10 h-10"></div> // Placeholder loading
     );
   }
 
@@ -176,7 +172,9 @@ export default function Home() {
         />
       )}
 
-      {update && <EditTask onClose={() => setUpdate(false)} e={taskElement} />}
+      {update && taskElement && (
+        <EditTask onClose={() => setUpdate(false)} e={taskElement} />
+      )}
 
       {add && <AddTask onClose={() => setAdd(false)} />}
 
@@ -201,15 +199,19 @@ export default function Home() {
         </Button>
       </div>
 
-      {isLaoding ? (
-        tasksData.length == 0 ? (
+      {isLoading ? (
+        tasksData.length === 0 ? (
           <Card className="flex items-center py-10">
             <p className="text-text">No tasks found</p>
           </Card>
         ) : (
           <div className="flex flex-col gap-4">
-            {tasksData.map((e, i) => (
-              <TaskCard key={i} e={e} update={() => handleUpdate(e)} />
+            {tasksData.map((task: Task) => (
+              <TaskCard
+                key={task.id}
+                e={task}
+                update={() => handleUpdate(task)}
+              />
             ))}
           </div>
         )

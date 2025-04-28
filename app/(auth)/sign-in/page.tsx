@@ -25,17 +25,17 @@ export default function SignInPage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 p-4">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-bg p-4">
       <div className="flex flex-col items-center justify-center mb-8">
         <div className="text-6xl font-bold tracking-tight relative">
-          <span className="bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-slate-400 dark:to-slate-50">
             Noto
           </span>
           <div className="absolute -top-1 -right-3 w-2 h-2 md:w-3 md:h-3 bg-main rounded-full" />
         </div>
-        <p className="text-sm text-slate-500 mt-1">Manage your daily task</p>
+        <p className="text-sm text-slate-500 mt-1 dark:text-slate-50">Manage your daily task</p>
       </div>
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm bg-white">
         {!session?.data && (
           <CardHeader>
             <CardTitle className="text-xl text-center">

@@ -2,7 +2,7 @@ import { toast } from "sonner";
 
 const DeleteTask = async (id: number) => {
   try {
-    await fetch(`http://localhost:3000/api/todos/${id}`, {
+    await fetch(`/api/todos/${id}`, {
       method: "DELETE",
     });
 

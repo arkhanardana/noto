@@ -13,7 +13,7 @@ const UpdateTask = async (
   id: number
 ) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/todos/${id}`, {
+    const res = await fetch(`/api/todos/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const UpdateTask = async (
 
 export const UpdateStatus = async (statuses: Status, id: number) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/todos/${id}`, {
+    const res = await fetch(`/api/todos/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -33,7 +33,8 @@ const TaskCard = ({ e, update }) => {
   const handleStatus = () => {
     if (status === "PROGRESS") {
       setStatus("COMPLETED");
-    } else {
+    } 
+    if(status === "COMPLETED") {
       setStatus("PROGRESS");
     }
   };

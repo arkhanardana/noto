@@ -38,7 +38,7 @@ const Checkbox = React.forwardRef<
     >
       <CheckboxPrimitive.Indicator className="flex items-center justify-center">
         {isChecked ? (
-          <Check className="size-4" />
+          <Check className="size-4 text-text" />
         ) : isIndeterminate ? (
           <div className="w-3 h-0.5 bg-white" /> // Custom progress indicator
         ) : null}

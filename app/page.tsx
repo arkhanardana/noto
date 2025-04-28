@@ -148,7 +148,7 @@ export default function Home() {
       </div>
 
       <div className="flex justify-between py-6">
-        <h1 className="text-3xl font-bold">My Tasks</h1>
+        <h1 className="text-3xl font-bold text-text">My Tasks</h1>
         <Select onValueChange={handleFilterChange}>
           <SelectTrigger className="w-[110px]">
             <SelectValue placeholder="Filter by" />
@@ -199,7 +199,7 @@ export default function Home() {
 
       {tasksData.length == 0? (
         <Card className="flex items-center py-10">
-          <p className="text-gray-700">No tasks found</p>
+          <p className="text-text">No tasks found</p>
         </Card>
       ) : (
         <div className="flex flex-col gap-4">

@@ -52,27 +52,16 @@ const AddTask = ({ onClose }) => {
     setDesc(e.target.value);
   };
 
-
-  console.log(title, desc, priority, "TODO", add.toISOString())
-
-  console.log({
-    title: { value: title, type: typeof title },
-    desc: { value: desc, type: typeof desc },
-    priority: { value: priority, type: typeof priority },
-    status: { value: "TODO", type: typeof "TODO" },
-    date: { value: add.toISOString, type: typeof add.toISOString() }
-  });
-
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Add New Task</CardTitle>
+        <CardTitle className="text-text">Add New Task</CardTitle>
       </CardHeader>
       <CardContent>
         <form>
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title" className="text-text">Title</Label>
               <Input
                 id="title"
                 type="name"
@@ -83,7 +72,7 @@ const AddTask = ({ onClose }) => {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="desc">Description</Label>
+              <Label htmlFor="desc" className="text-text">Description</Label>
               <Textarea
                 id="desc"
                 value={desc}
@@ -93,7 +82,7 @@ const AddTask = ({ onClose }) => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label>Priority</Label>
+                <Label className="text-text">Priority</Label>
                 <Select onValueChange={setPriority}>
                   <SelectTrigger>
                     <SelectValue placeholder="Level" />
@@ -108,7 +97,7 @@ const AddTask = ({ onClose }) => {
                 </Select>
               </div>
               <div className="grid gap-2">
-                <Label>Deadline</Label>
+                <Label className="text-text">Deadline</Label>
                 <Dialog>
                   <form>
                     <DialogTrigger asChild>
@@ -149,13 +138,13 @@ const AddTask = ({ onClose }) => {
         </form>
       </CardContent>
       <CardFooter className="gap-2 flex ml-auto">
-        <Button onClick={onClose} variant="neutral" className="">
+        <Button onClick={onClose} variant="neutral" className="text-text">
           Cancel
         </Button>
         <Button
           onClick={() => PostTask(title, desc, "PROGRESS", priority, add.toISOString(), onClose)}
           type="submit"
-          className=""
+          disabled={!title || !desc || !priority || !add}
         >
           Add Task
         </Button>

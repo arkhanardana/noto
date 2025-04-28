@@ -56,7 +56,7 @@ const TaskCard = ({ e, update }) => {
         <div className="flex items-center gap-4">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Checkbox className="border-black border-2 w-6 h-6" status={e.status} onStatusChange={handleStatus}/>
+              <Checkbox className="border-text border-2 w-6 h-6" status={e.status} onStatusChange={handleStatus}/>
             </AlertDialogTrigger>
             <AlertDialogContent className="bg-white">
               <AlertDialogHeader>
@@ -74,16 +74,16 @@ const TaskCard = ({ e, update }) => {
             </AlertDialogContent>
           </AlertDialog>
           <div className="">
-            <CardTitle className="text-xl">{e.title}</CardTitle>
-            <CardDescription className="text-base">
+            <CardTitle className="text-xl text-text">{e.title}</CardTitle>
+            <CardDescription className="text-base text-text">
               {e.description}
             </CardDescription>
           </div>
           <div className="ml-auto flex gap-4">
-            <SquarePen onClick={update} />
+            <SquarePen onClick={update} className="text-text"/>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Trash2 />
+                <Trash2 className="text-text"/>
               </AlertDialogTrigger>
               <AlertDialogContent className="bg-white">
                 <AlertDialogHeader>
@@ -104,7 +104,7 @@ const TaskCard = ({ e, update }) => {
           </div>
         </div>
         <div className="flex items-center">
-          <p className="text-sm flex">
+          <p className="text-sm flex text-text">
             <span className="font-semibold mr-1">Deadline:</span>
             {FormatDate(e.deadline)}
           </p>

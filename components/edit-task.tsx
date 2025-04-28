@@ -69,13 +69,13 @@ const EditTask = ({ onClose, e }) => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Edit Task</CardTitle>
+        <CardTitle className="text-text">Edit Task</CardTitle>
       </CardHeader>
       <CardContent>
         <form>
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title" className="text-text">Title</Label>
               <Input
                 id="title"
                 type="name"
@@ -96,7 +96,7 @@ const EditTask = ({ onClose, e }) => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label>Priority</Label>
+                <Label className="text-text">Priority</Label>
                 <Select onValueChange={handlePriorityChange} value={priority}>
                   <SelectTrigger>
                     <SelectValue placeholder="Level" />
@@ -111,7 +111,7 @@ const EditTask = ({ onClose, e }) => {
                 </Select>
               </div>
               <div className="grid gap-2">
-                <Label>Deadline</Label>
+                <Label className="text-text">Deadline</Label>
                 <Dialog>
                   <form>
                     <DialogTrigger asChild>
@@ -152,13 +152,14 @@ const EditTask = ({ onClose, e }) => {
         </form>
       </CardContent>
       <CardFooter className="gap-2 flex ml-auto">
-        <Button onClick={onClose} variant="neutral" className="">
+        <Button onClick={onClose} variant="neutral" className="text-text">
           Cancel
         </Button>
         <Button
           onClick={() => UpdateTask(title, desc, e.status, priority, add, onClose, e.id)}
           type="submit"
           className=""
+          disabled={!title || !desc || !priority || !add}
         >
           Update Task
         </Button>

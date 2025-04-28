@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <link rel="icon" href="/logo.ico" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-bg`}>
         <ThemeProvider>
           {children}
           <Toaster />

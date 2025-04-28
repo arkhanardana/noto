@@ -5,6 +5,8 @@ import { todoSchema } from "./todos.schema";
 import { AppBindings } from "../lib/types";
 import { zValidator } from "@hono/zod-validator";
 
+type TodoStatus = "PROGRESS" | "COMPLETED";
+type TodoPriority = "LOW" | "MEDIUM" | "HIGH";
 export const todo = new Hono<AppBindings>();
 
 todo.use("*", sessionMiddleware);
@@ -36,8 +38,8 @@ todo.get("/search", async (c) => {
   if (!user) return c.json({ error: "Unauthorized" }, 401);
 
   const q = c.req.query("q") || "";
-  const status = c.req.query("status");
-  const priority = c.req.query("priority");
+  const status = c.req.query("status") as TodoStatus;
+  const priority = c.req.query("priority") as TodoPriority;
 
   const todos = await db.todo.findMany({
     where: {

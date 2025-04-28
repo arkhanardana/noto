@@ -15,6 +15,12 @@ export async function middleware(request: NextRequest) {
     }
   );
 
+  const pathname = request.nextUrl.pathname;
+
+  if (pathname.startsWith("/admin") && session?.user?.role !== "ADMIN") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
   if (!session) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
@@ -23,5 +29,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/"],
+  matcher: ["/", "/admin/:path*"],
 };

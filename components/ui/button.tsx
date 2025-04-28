@@ -17,6 +17,7 @@ const buttonVariants = cva(
           "bg-secondary-background text-foreground border-2 border-border shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none",
         reverse:
           "text-main-foreground bg-main border-2 border-border hover:translate-x-reverseBoxShadowX hover:translate-y-reverseBoxShadowY hover:shadow-shadow",
+        noBorder: "text-main-foreground bg-main",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -33,22 +34,29 @@ const buttonVariants = cva(
   }
 );
 
-interface ButtonProps extends React.ComponentProps<"button">, VariantProps<typeof buttonVariants> {
+interface ButtonProps
+  extends React.ComponentProps<"button">,
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   isActive?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, isActive, onClick, ...props }, ref) => {
+  (
+    { className, variant, size, asChild = false, isActive, onClick, ...props },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
-    
+
     // Determine variant based on active state
     const effectiveVariant = isActive ? "noShadow" : variant;
 
     return (
       <Comp
         ref={ref}
-        className={cn(buttonVariants({ variant: effectiveVariant, size, className }))}
+        className={cn(
+          buttonVariants({ variant: effectiveVariant, size, className })
+        )}
         onClick={onClick}
         {...props}
       />

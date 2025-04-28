@@ -29,39 +29,39 @@ const UpdateTask = async (
     const data = await res.json();
 
     console.log(data);
-    toast.success("Successfully update task")
+    toast.success("Successfully update task");
     return data;
   } catch (error) {
     console.log(error);
-    toast.error("Failed to update task")
-  }finally{
-    onClose()
+    toast.error("Failed to update task");
+  } finally {
+    onClose();
+    window.location.reload();
   }
 };
 
-export const UpdateStatus = async (
-    statuses: Status,
-    id: number
-  ) => {
-    try {
-      const res = await fetch(`http://localhost:3000/api/todos/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status: statuses,
-        }),
-      });
-      const data = await res.json();
-  
-      console.log(data);
-      toast.success("Successfully update task's staus")
-      return data;
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to update task's status")
-    }
-  };
+export const UpdateStatus = async (statuses: Status, id: number) => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/todos/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        status: statuses,
+      }),
+    });
+    const data = await res.json();
+
+    console.log(data);
+    toast.success("Successfully update task's status");
+    return data;
+  } catch (error) {
+    console.log(error);
+    toast.error("Failed to update task's status");
+  } finally {
+    window.location.reload();
+  }
+};
 
 export default UpdateTask;

@@ -44,6 +44,7 @@ const AddTask = ({ onClose }) => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [priority, setPriority] = useState<Priority>("MEDIUM");
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -52,15 +53,14 @@ const AddTask = ({ onClose }) => {
     setDesc(e.target.value);
   };
 
-
-  console.log(title, desc, priority, "TODO", add.toISOString())
+  console.log(title, desc, priority, "TODO", add.toISOString());
 
   console.log({
     title: { value: title, type: typeof title },
     desc: { value: desc, type: typeof desc },
     priority: { value: priority, type: typeof priority },
     status: { value: "TODO", type: typeof "TODO" },
-    date: { value: add.toISOString, type: typeof add.toISOString() }
+    date: { value: add.toISOString, type: typeof add.toISOString() },
   });
 
   return (
@@ -109,10 +109,16 @@ const AddTask = ({ onClose }) => {
               </div>
               <div className="grid gap-2">
                 <Label>Deadline</Label>
-                <Dialog>
+                <Dialog onOpenChange={(open) => setIsCalendarOpen(open)}>
                   <form>
                     <DialogTrigger asChild>
-                      <Button className="w-full">
+                      <Button
+                        className={`w-full ${
+                          isCalendarOpen
+                            ? "bg-black text-white hover:bg-black/90"
+                            : ""
+                        }`}
+                      >
                         {FormatDate(add)}
                       </Button>
                     </DialogTrigger>
@@ -127,6 +133,10 @@ const AddTask = ({ onClose }) => {
                         disabled={(date) => date <= new Date()}
                         className="flex justify-center"
                       />
+                      <p className="text-center mt-2 text-sm text-black">
+                        Selected date:{" "}
+                        {date ? FormatDate(date) : FormatDate(add)}
+                      </p>
                       <DialogFooter>
                         <DialogClose asChild>
                           <Button
@@ -137,7 +147,9 @@ const AddTask = ({ onClose }) => {
                           </Button>
                         </DialogClose>
                         <DialogClose>
-                          <Button onClick={() => setAdd(date)}>Add Deadline</Button>
+                          <Button onClick={() => setAdd(date)}>
+                            Add Deadline
+                          </Button>
                         </DialogClose>
                       </DialogFooter>
                     </DialogContent>
@@ -153,7 +165,16 @@ const AddTask = ({ onClose }) => {
           Cancel
         </Button>
         <Button
-          onClick={() => PostTask(title, desc, "PROGRESS", priority, add.toISOString(), onClose)}
+          onClick={() =>
+            PostTask(
+              title,
+              desc,
+              "PROGRESS",
+              priority,
+              add.toISOString(),
+              onClose
+            )
+          }
           type="submit"
           className=""
         >

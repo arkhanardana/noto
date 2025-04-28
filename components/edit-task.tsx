@@ -56,16 +56,6 @@ const EditTask = ({ onClose, e }) => {
     setPriority(value as Priority); // Type assertion
   };
 
-  console.log(title, desc, priority, e.status, add)
-
-  console.log({
-    title: { value: title, type: typeof title },
-    desc: { value: desc, type: typeof desc },
-    priority: { value: priority, type: typeof priority },
-    status: { value: e.status, type: typeof e.status },
-    date: { value: add.toISOString, type: typeof add }
-  });
-
   return (
     <Card className="w-full">
       <CardHeader>
@@ -115,9 +105,7 @@ const EditTask = ({ onClose, e }) => {
                 <Dialog>
                   <form>
                     <DialogTrigger asChild>
-                      <Button className="w-full">
-                        {FormatDate(add)}
-                      </Button>
+                      <Button className="w-full">{FormatDate(add)}</Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] bg-white">
                       <DialogHeader>
@@ -140,7 +128,9 @@ const EditTask = ({ onClose, e }) => {
                           </Button>
                         </DialogClose>
                         <DialogClose>
-                          <Button onClick={() => setAdd(date)}>Add Deadline</Button>
+                          <Button onClick={() => setAdd(date)}>
+                            Add Deadline
+                          </Button>
                         </DialogClose>
                       </DialogFooter>
                     </DialogContent>
@@ -156,7 +146,9 @@ const EditTask = ({ onClose, e }) => {
           Cancel
         </Button>
         <Button
-          onClick={() => UpdateTask(title, desc, e.status, priority, add, onClose, e.id)}
+          onClick={() =>
+            UpdateTask(title, desc, e.status, priority, add, onClose, e.id)
+          }
           type="submit"
           className=""
         >

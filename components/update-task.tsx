@@ -28,7 +28,6 @@ const UpdateTask = async (
     });
     const data = await res.json();
 
-    console.log(data);
     toast.success("Successfully update task");
     return data;
   } catch (error) {

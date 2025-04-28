@@ -43,7 +43,7 @@ export function TodosTable({ todos }: TodosTableProps) {
           {todos.length === 0 ? (
             <TableRow>
               <TableCell
-                colSpan={5}
+                colSpan={6}
                 className="text-center py-6 text-muted-foreground"
               >
                 No todos found

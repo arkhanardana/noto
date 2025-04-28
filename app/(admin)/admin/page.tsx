@@ -6,10 +6,12 @@ import { useEffect, useState } from "react";
 
 export default function AdminPage() {
   const [todos, setTodos] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getAllTodos = async () => {
       try {
+        setIsLoading(true);
         const res = await fetch("/api/todos", {
           method: "GET",
           credentials: "include",
@@ -22,6 +24,8 @@ export default function AdminPage() {
         setTodos(data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -49,7 +53,7 @@ export default function AdminPage() {
 
       <div className="py-6 px-4">
         <h2 className="text-xl font-semibold mb-4">Your Tasks</h2>
-        <TodosTable todos={todos} />
+        {isLoading ? <p>Loading...</p> : <TodosTable todos={todos} />}
       </div>
     </div>
   );
